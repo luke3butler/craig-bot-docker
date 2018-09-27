@@ -1,3 +1,6 @@
 {
-	"token": "BOT_TOKEN"
+	"token": "BOT_TOKEN",
+	"nick": "NICK",
+	"url": "HOME_URL",
+	"dlUrl": "DL_URL"
 }
