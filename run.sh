@@ -16,7 +16,14 @@ sed -i -e "s/DL_URL/${DLURL}/g" config.json
 cat config.json
 cat craig/default-config.js
 
-mkdir rec
+if [ ! -d rec ]; then
+	mkdir rec
+fi
+
+rm -r /var/www/html
+mv /opt/build/craig/web /var/www/html
+
+/etc/init.d/apache2 start
 
 node craig-runner.js
 

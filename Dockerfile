@@ -54,8 +54,17 @@ RUN pwd
 #RUN ./configure
 RUN npm install
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install php7.2-intl php7.2-cli tzdata apache2 libapache2-mod-php
+
 COPY config.json config.json
 COPY run.sh run.sh
+
+CMD /etc/init.d/apache stop
+
+WORKDIR /home/yahweasel/
+RUN ln -s /opt/build/craig .
+
+WORKDIR /opt/build/craig
 
 ENTRYPOINT ["bash", "run.sh"]
 CMD ["token", "url"]
