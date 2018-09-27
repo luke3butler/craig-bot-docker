@@ -2,7 +2,7 @@ FROM ubuntu:cosmic
 
 ENV FFMPEG_VERSION=4.0.2
 
-WORKDIR /tmp/ffmpeg
+WORKDIR /opt/build
 
 RUN apt-get update
 RUN apt-get -y install curl nasm tar bzip2 make 
@@ -16,7 +16,7 @@ RUN apt-get -y install libx265-dev libssl-dev libfreetype6-dev libgnutls28-dev
 
 RUN curl -s http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz | tar zxvf - -C .
 
-WORKDIR /tmp/ffmpeg/ffmpeg-${FFMPEG_VERSION}
+WORKDIR /opt/build/ffmpeg-${FFMPEG_VERSION}
 
 RUN ./configure --help
 RUN ./configure \
@@ -26,30 +26,30 @@ RUN make
 RUN make install
 RUN echo make distclean
 
-WORKDIR /tmp/ffmpeg
+WORKDIR /opt/build
 RUN curl https://bitbucket.org/Yahweasel/craig/get/529f2decdb8d.zip -o craig.zip 
 RUN unzip craig.zip
 RUN ln -s Yahweasel-craig-529f2decdb8d craig
 
-WORKDIR /tmp/ffmpeg
+WORKDIR /opt/build
 
 RUN apt-get -y install autoconf
 
 RUN git clone https://github.com/LiskHQ/node-sodium.git
-WORKDIR /tmp/ffmpeg/node-sodium
+WORKDIR /opt/build/node-sodium
 
 RUN apt-get -y install npm
 RUN pwd
 RUN npm install
 
-WORKDIR /tmp/ffmpeg/craig
+WORKDIR /opt/build/craig
 RUN npm install bufferutil
 RUN npm install node-opus
 RUN npm install erlpack
 RUN npm install opusscript
 RUN npm install discord.js
 RUN npm install sodium
-RUN rm -r node_modules
+#RUN rm -r node_modules
 RUN pwd
 #RUN ./configure
 RUN npm install
@@ -58,5 +58,5 @@ COPY config.json config.json
 COPY run.sh run.sh
 
 ENTRYPOINT ["bash", "run.sh"]
-CMD ["tete"]
+CMD ["token", "url"]
 
