@@ -54,17 +54,30 @@ RUN pwd
 #RUN ./configure
 RUN npm install
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install php7.2-intl php7.2-cli tzdata apache2 libapache2-mod-php
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install php7.2-intl php7.2-cli tzdata 
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install nginx-extras
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install php7.3 php7.2-fpm php7.2-common php7.2-curl php7.2-dev php7.2-gd php7.2-imagick php7.2-memcache php7.2-mysql php7.2-pspell php7.2-snmp php7.2-sqlite php7.2-xmlrpc php7.2-xsl php-pear php7.2-cli
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install flac at inkscape
+
+RUN mkdir /run/php
 
 COPY config.json config.json
 COPY run.sh run.sh
 
-CMD /etc/init.d/apache stop
-
 WORKDIR /home/yahweasel/
 RUN ln -s /opt/build/craig .
 
-WORKDIR /opt/build/craig
+WORKDIR /opt/build/craig/cook
+
+COPY buildextras.sh buildextras.sh
+CMD bash buildextras.sh
+
+CMD echo php nginx 
+
+WORKDIR /opt/build/craig/
+COPY nginx.conf /etc/nginx/sites-enabled/default
+
+CMD chmod a+rw . -R
 
 ENTRYPOINT ["bash", "run.sh"]
 CMD ["token", "url"]
