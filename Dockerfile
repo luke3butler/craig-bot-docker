@@ -27,9 +27,9 @@ RUN make install
 RUN echo make distclean
 
 WORKDIR /opt/build
-RUN curl https://bitbucket.org/Yahweasel/craig/get/529f2decdb8d.zip -o craig.zip 
+RUN curl https://codeload.github.com/Yahweasel/craig/zip/master -o craig.zip 
 RUN unzip craig.zip
-RUN ln -s Yahweasel-craig-529f2decdb8d craig
+RUN ln -s craig-master craig
 
 WORKDIR /opt/build
 
